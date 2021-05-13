@@ -203,9 +203,9 @@ fun LikeButton(modifier: Modifier) {
         modifier = modifier
             .background(
                 color = Blue,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(12.dp)
             )
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 22.dp, vertical = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(

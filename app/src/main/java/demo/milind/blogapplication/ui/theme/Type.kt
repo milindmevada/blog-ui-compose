@@ -12,6 +12,7 @@ import demo.milind.blogapplication.R
 
 private val Metropolis = FontFamily(
     Font(R.font.metropolis_black, FontWeight.W800),
+    Font(R.font.metropolis_bold, FontWeight.W700),
     Font(R.font.metropolis_regular, FontWeight.W400),
     Font(R.font.metropolis_medium, FontWeight.W500),
 )
@@ -19,14 +20,14 @@ private val Metropolis = FontFamily(
 val Typography = Typography(
     h5 = TextStyle(
         fontFamily = Metropolis,
-        fontWeight = FontWeight.W800,
+        fontWeight = FontWeight.W700,
         fontSize = 24.sp,
         lineHeight = 32.78.sp,
         color = BlueDark,
     ),
     h6 = TextStyle(
         fontFamily = Metropolis,
-        fontWeight = FontWeight.W800,
+        fontWeight = FontWeight.W700,
         fontSize = 18.sp,
         lineHeight = 20.sp,
         color = BlueDark,
