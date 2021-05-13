@@ -1,6 +1,7 @@
 package demo.milind.blogapplication.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -43,6 +44,13 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         color = BlueDarkText,
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W500,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        color = Color.White,
     ),
     caption = TextStyle(
         fontFamily = Metropolis,

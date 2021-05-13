@@ -3,11 +3,9 @@ package demo.milind.blogapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -15,8 +13,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -44,13 +47,16 @@ fun Greeting() {
             AppBar()
         },
         content = {
-            Box {
+            Box(Modifier.fillMaxSize()) {
                 Column {
                     BlogTitle()
                     Spacer(modifier = Modifier.height(24.dp))
                     AuthorTile()
                     Spacer(modifier = Modifier.height(18.dp))
                     BlogContent()
+                }
+                Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                    BottomOverLay()
                 }
             }
         }
@@ -137,6 +143,7 @@ fun BlogContent() {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
+            .padding(bottom = 116.dp)
     ) {
         Image(
             modifier = Modifier
@@ -164,6 +171,54 @@ fun BlogContent() {
             style = MaterialTheme.typography.body2,
             modifier = Modifier.padding(horizontal = 28.dp)
         )
+    }
+}
+
+@Composable
+fun BottomOverLay() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(116.dp)
+            .padding(horizontal = 24.dp)
+            .background(
+                Brush.verticalGradient(
+                    0.0f to Color(0x00F9FAFF),
+                    1.0f to Color(0xFFFAFBFF),
+                )
+            )
+
+    ) {
+        LikeButton(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clickable { }
+        )
+    }
+}
+
+@Composable
+fun LikeButton(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .background(
+                color = Blue,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_thumb),
+                contentDescription = null,
+                tint = Color.White,
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "2.1k",
+                style = MaterialTheme.typography.subtitle1,
+            )
+        }
     }
 }
 
