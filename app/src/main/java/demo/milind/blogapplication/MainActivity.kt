@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +12,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +32,7 @@ import demo.milind.blogapplication.ui.theme.BlogApplicationTheme
 import demo.milind.blogapplication.ui.theme.Blue
 import demo.milind.blogapplication.ui.theme.BlueDarkText
 import demo.milind.blogapplication.ui.theme.ScaffoldBackground
+
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
@@ -212,6 +216,9 @@ fun BottomOverLay(isLikeButtonVisible: Boolean) {
             )
 
     ) {
+        var isLiked by rememberSaveable {
+            mutableStateOf(false)
+        }
         AnimatedVisibility(
             visible = isLikeButtonVisible,
             modifier = Modifier
@@ -219,27 +226,48 @@ fun BottomOverLay(isLikeButtonVisible: Boolean) {
             enter = slideIn(initialOffset = { IntOffset(0, it.height) }),
             exit = slideOut(targetOffset = { IntOffset(0, it.height * 2) }),
         ) {
-            LikeButton()
+            LikeButton(
+                isLiked = isLiked,
+                onToggleLike = { isLiked = !isLiked }
+            )
         }
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
-fun LikeButton() {
+fun LikeButton(isLiked: Boolean, onToggleLike: () -> Unit) {
     Box(
         modifier = Modifier
-            .background(
-                color = Blue,
-                shape = RoundedCornerShape(12.dp)
-            )
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = Blue)
+            .clickable { onToggleLike() }
             .padding(horizontal = 22.dp, vertical = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_thumb),
-                contentDescription = null,
-                tint = Color.White,
-            )
+            AnimatedVisibility(
+                visible = isLiked,
+                enter = expandIn(expandFrom = Alignment.Center),
+                exit = shrinkOut(shrinkTowards = Alignment.Center)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ThumbUp,
+                    contentDescription = null,
+                    tint = Color.White,
+                )
+            }
+            AnimatedVisibility(
+                visible = !isLiked,
+                enter = expandIn(expandFrom = Alignment.Center),
+                exit = shrinkOut(shrinkTowards = Alignment.Center)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.ThumbUp,
+                    contentDescription = null,
+                    tint = Color.White,
+                )
+            }
+
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "2.1k",
