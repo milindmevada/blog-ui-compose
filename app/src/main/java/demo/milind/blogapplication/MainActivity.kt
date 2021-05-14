@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -240,7 +241,7 @@ fun LikeButton(isLiked: Boolean, onToggleLike: () -> Unit) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(color = Blue)
+            .background(brush = Brush.linearGradient(listOf(Blue, Blue.copy(0.7f))))
             .clickable { onToggleLike() }
             .padding(horizontal = 22.dp, vertical = 12.dp)
     ) {
