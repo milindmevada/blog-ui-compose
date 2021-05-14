@@ -3,6 +3,8 @@ package demo.milind.blogapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,11 +23,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import demo.milind.blogapplication.ui.theme.BlogApplicationTheme
 import demo.milind.blogapplication.ui.theme.Blue
 import demo.milind.blogapplication.ui.theme.BlueDarkText
+import demo.milind.blogapplication.ui.theme.ScaffoldBackground
 
+@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +42,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun BlogDetailsScreen() {
+    val scrollState = rememberScrollState()
     Scaffold(
         topBar = {
-            AppBar()
+            AppBar(isTitleVisible = scrollState.value > 10)
         },
         content = {
             Box(Modifier.fillMaxSize()) {
@@ -49,10 +57,10 @@ fun BlogDetailsScreen() {
                     Spacer(modifier = Modifier.height(32.dp))
                     AuthorTile()
                     Spacer(modifier = Modifier.height(24.dp))
-                    BlogContent()
                 }
+                BlogContent(scrollState)
                 Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-                    BottomOverLay()
+                    BottomOverLay(isLikeButtonVisible = scrollState.value == scrollState.maxValue)
                 }
             }
         }
@@ -113,10 +121,12 @@ fun AuthorTile() {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
-fun AppBar() {
+fun AppBar(isTitleVisible: Boolean) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp)
@@ -126,6 +136,19 @@ fun AppBar() {
             contentDescription = null,
             tint = BlueDarkText,
         )
+        AnimatedVisibility(
+            visible = isTitleVisible,
+            modifier = Modifier.weight(1f),
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            Text(
+                "Four Things Every Women Needs to know",
+                style = MaterialTheme.typography.h6,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
         Icon(
             painter = painterResource(id = R.drawable.ic_overflow),
             contentDescription = null,
@@ -135,11 +158,14 @@ fun AppBar() {
 }
 
 @Composable
-fun BlogContent() {
+fun BlogContent(scrollState: ScrollState) {
+    val offset by animateDpAsState(targetValue = if (scrollState.value == 0) 150.dp else 0.dp)
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
+            .offset(y = offset)
             .padding(bottom = 116.dp)
+            .background(ScaffoldBackground)
     ) {
         Image(
             modifier = Modifier
@@ -163,15 +189,16 @@ fun BlogContent() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "This one got an incredible amount of backlash the last time I said it, so I’m going to say it again: a man’s sexuality is never, ever your responsibility, under any circumstances. Whether it’s the fifth date or your twentieth year of marriage, the correct determining factor for whether or not you have sex with your partner isn’t whether you ought to “take care of him” or “put out” because it’s been a while or he’s really horny — the correct determining factor for whether or not you have sex is whether or not you want to have sex.\n This one got an incredible amount of backlash the last time I said it, so I’m going to say it again: a man’s sexuality is never, ever your responsibility, under any circumstances. Whether it’s the fifth date or your twentieth year of marriage, the correct determining factor for whether or not you have sex with your partner isn’t whether you ought to “take care of him” or “put out” because it’s been a while or he’s really horny — the correct determining factor for whether or not you have sex is whether or not you want to have sex.\n",
+            text = dummyBlogContent,
             style = MaterialTheme.typography.body2,
             modifier = Modifier.padding(horizontal = 28.dp)
         )
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
-fun BottomOverLay() {
+fun BottomOverLay(isLikeButtonVisible: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -185,18 +212,22 @@ fun BottomOverLay() {
             )
 
     ) {
-        LikeButton(
+        AnimatedVisibility(
+            visible = isLikeButtonVisible,
             modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .clickable { }
-        )
+                .align(Alignment.CenterEnd),
+            enter = slideIn(initialOffset = { IntOffset(0, it.height) }),
+            exit = slideOut(targetOffset = { IntOffset(0, it.height * 2) }),
+        ) {
+            LikeButton()
+        }
     }
 }
 
 @Composable
-fun LikeButton(modifier: Modifier) {
+fun LikeButton() {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .background(
                 color = Blue,
                 shape = RoundedCornerShape(12.dp)
@@ -218,6 +249,7 @@ fun LikeButton(modifier: Modifier) {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewApp() {
