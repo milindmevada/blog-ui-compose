@@ -13,11 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -34,14 +30,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BlogApplicationTheme {
-                Greeting()
+                BlogDetailsScreen()
             }
         }
     }
 }
 
 @Composable
-fun Greeting() {
+fun BlogDetailsScreen() {
     Scaffold(
         topBar = {
             AppBar()
@@ -50,9 +46,9 @@ fun Greeting() {
             Box(Modifier.fillMaxSize()) {
                 Column {
                     BlogTitle()
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                     AuthorTile()
-                    Spacer(modifier = Modifier.height(18.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
                     BlogContent()
                 }
                 Box(modifier = Modifier.align(Alignment.BottomCenter)) {
@@ -225,5 +221,5 @@ fun LikeButton(modifier: Modifier) {
 @Preview
 @Composable
 fun PreviewApp() {
-    Greeting()
+    BlogDetailsScreen()
 }
