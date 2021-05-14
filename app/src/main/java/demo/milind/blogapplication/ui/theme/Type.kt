@@ -1,28 +1,63 @@
 package demo.milind.blogapplication.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import demo.milind.blogapplication.R
 
-// Set of Material typography styles to start with
+private val Metropolis = FontFamily(
+    Font(R.font.metropolis_black, FontWeight.W800),
+    Font(R.font.metropolis_bold, FontWeight.W700),
+    Font(R.font.metropolis_regular, FontWeight.W400),
+    Font(R.font.metropolis_medium, FontWeight.W500),
+)
+
 val Typography = Typography(
+    h5 = TextStyle(
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W700,
+        fontSize = 24.sp,
+        lineHeight = 32.78.sp,
+        color = BlueDark,
+    ),
+    h6 = TextStyle(
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W700,
+        fontSize = 18.sp,
+        lineHeight = 20.sp,
+        color = BlueDark,
+    ),
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = Metropolis,
         fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+        fontSize = 14.sp,
+        lineHeight = 19.12.sp,
+        color = BlueDarkText,
+    ),
+    body2 = TextStyle(
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W400,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        color = BlueDarkText,
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W500,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        color = Color.White,
     ),
     caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
+        fontFamily = Metropolis,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
+        lineHeight = 16.39.sp,
+        color = CaptionText,
+    ),
 )
