@@ -6,7 +6,7 @@
 </p>
 
 ## Description
-This is a non functional Blog Application developed to showcase [Jetpack Compose](http://https://developer.android.com/jetpack/compose "Jetpack Compose") UI implementation.
+This is a non functional Blog Application developed to showcase [Jetpack Compose](https://developer.android.com/jetpack/compose "Jetpack Compose") UI implementation.
 
 ## UI Inspiration
 The UI is inspired by [this open source design](https://dribbble.com/shots/15039580-BLOG-CLUB-Blog-UI-kit-Freebie?ref=uistore.design "this open source design").
